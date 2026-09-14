@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Доктор Анна Игоревна — детский врач-стоматолог</title>
-<meta name="description" content="Детский врач-стоматолог. Бережное лечение без страха и боли, адаптация ребёнка к кабинету, забота о родителях и детях.">
+<title>Долгова Елена Дмитриевна — детский врач-стоматолог</title>
+<meta name="description" content="Детский врач-стоматолог Долгова Елена Дмитриевна. Бережное лечение без страха и боли, адаптация ребёнка к кабинету, забота о родителях и детях.">
 
 <!-- Шрифты: Manrope — для заголовков (тёплый, геометричный), Nunito — для текста (мягкий, округлый) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -85,7 +85,7 @@
     border-radius:6px;
   }
 
-  .eyebrow-free-label{ /* просто утилита для маленьких подписей, без капса и точек-разделителей */
+  .eyebrow-free-label{
     font-size:0.95rem;
     color:var(--mint-dark);
     font-weight:700;
@@ -111,10 +111,11 @@
   .nav-logo{
     font-family:'Manrope', sans-serif;
     font-weight:800;
-    font-size:1.15rem;
+    font-size:1.1rem;
     display:flex;
     align-items:center;
     gap:10px;
+    text-decoration:none;
   }
   .nav-logo svg{flex-shrink:0;}
 
@@ -206,7 +207,7 @@
   }
   .hero-text .eyebrow-free-label{display:block; margin-bottom:14px;}
   .hero-text h1{
-    font-size:clamp(2.1rem, 5vw, 3.2rem);
+    font-size:clamp(2rem, 5vw, 3rem);
     letter-spacing:-0.02em;
   }
   .hero-text .slogan{
@@ -255,7 +256,6 @@
     width:100%;
     max-width:360px;
   }
-  /* Органичная "блоб"-форма-подложка под фото врача */
   .blob-bg{
     position:absolute;
     inset:-8%;
@@ -286,8 +286,31 @@
     .hero-photo-wrap{order:2;}
   }
 
+  /* ===================== ВИДЕО-ЗНАКОМСТВО ===================== */
+  .video-intro{background:var(--bg-alt);}
+  .video-intro .wrap{
+    display:grid;
+    gap:32px;
+  }
+  .video-intro-text h2{font-size:clamp(1.6rem,3vw,2.1rem); max-width:20ch;}
+  .video-intro-text p{color:var(--ink-soft); max-width:52ch; font-size:1.03rem;}
+  .video-frame{
+    border-radius:var(--radius-lg);
+    overflow:hidden;
+    box-shadow:var(--shadow);
+    background:#000;
+  }
+  .video-frame video{
+    width:100%;
+    display:block;
+    max-height:520px;
+  }
+
+  @media (min-width:900px){
+    .video-intro .wrap{grid-template-columns:0.85fr 1.15fr; align-items:center;}
+  }
+
   /* ===================== О СЕБЕ ===================== */
-  .about{background:var(--bg-alt);}
   .about .wrap{
     display:grid;
     gap:40px;
@@ -324,6 +347,7 @@
   }
 
   /* ===================== ПОДХОД К ЛЕЧЕНИЮ ===================== */
+  .approach{background:var(--bg-alt);}
   .approach h2{font-size:clamp(1.7rem,3.2vw,2.3rem); max-width:20ch;}
   .approach > .wrap > p{color:var(--ink-soft); max-width:60ch; font-size:1.05rem; margin-bottom:40px;}
 
@@ -347,10 +371,10 @@
     margin-bottom:18px;
     color:var(--mint-dark);
   }
+  .approach-card:nth-child(3n+2) .icon{background:var(--bg);}
   .approach-card h3{font-size:1.15rem;}
   .approach-card p{color:var(--ink-soft); font-size:0.98rem; margin:0;}
 
-  /* Асимметричная сетка на широких экранах: первая карточка шире */
   @media (min-width:720px){
     .approach-grid{grid-template-columns:repeat(2,1fr);}
     .approach-card:first-child{grid-column:1 / -1;}
@@ -367,38 +391,54 @@
     .approach-card:first-child{grid-column:span 2;}
   }
 
-  /* ===================== ГАЛЕРЕЯ КЕЙСОВ ===================== */
-  .gallery{background:var(--bg-alt);}
+  /* ===================== ПРИМЕР РАБОТЫ (ДО / ПОСЛЕ) ===================== */
   .gallery h2{font-size:clamp(1.7rem,3.2vw,2.3rem); max-width:20ch;}
   .gallery > .wrap > p.section-intro{color:var(--ink-soft); max-width:60ch; font-size:1.05rem; margin-bottom:40px;}
 
-  .gallery-grid{
+  .case-compare{
     display:grid;
     grid-template-columns:1fr;
-    gap:20px;
+    gap:16px;
+    margin-bottom:24px;
   }
-  .case-card{
+  .case-photo{
     background:var(--card);
+    border:none;
+    padding:0;
     border-radius:var(--radius-md);
     overflow:hidden;
     box-shadow:var(--shadow);
-    border:none;
-    padding:0;
     cursor:pointer;
     text-align:left;
     font-family:inherit;
     color:inherit;
+    position:relative;
   }
-  .case-card img{width:100%; aspect-ratio:4/3; object-fit:cover;}
-  .case-caption{padding:16px 18px;}
-  .case-caption .case-title{font-weight:700; display:block; margin-bottom:2px;}
-  .case-caption .case-meta{color:var(--ink-soft); font-size:0.9rem;}
+  .case-photo img{width:100%; aspect-ratio:4/3; object-fit:cover;}
+  .case-photo .tag{
+    position:absolute;
+    top:14px; left:14px;
+    background:var(--card);
+    color:var(--ink);
+    font-weight:800;
+    font-family:'Manrope', sans-serif;
+    font-size:0.85rem;
+    padding:6px 14px;
+    border-radius:100px;
+    box-shadow:var(--shadow);
+  }
+  .case-photo:nth-child(2) .tag{background:var(--mint); color:#fff;}
+
+  .case-text{
+    background:var(--card-beige);
+    border-radius:var(--radius-md);
+    padding:22px 24px;
+  }
+  .case-text p{color:var(--ink-soft); margin:0; font-size:1rem;}
+  .case-text p + p{margin-top:10px;}
 
   @media (min-width:640px){
-    .gallery-grid{grid-template-columns:repeat(2,1fr);}
-  }
-  @media (min-width:960px){
-    .gallery-grid{grid-template-columns:repeat(3,1fr);}
+    .case-compare{grid-template-columns:1fr 1fr;}
   }
 
   /* Лайтбокс */
@@ -508,17 +548,13 @@
     font-weight:600;
   }
   .contact-list a:hover{color:var(--mint);}
-  .social-row{display:flex; gap:12px;}
-  .social-row a{
-    width:42px; height:42px;
-    border-radius:50%;
-    background:rgba(255,255,255,0.1);
-    display:flex; align-items:center; justify-content:center;
-    color:#fff;
-    text-decoration:none;
-    transition:background 0.2s ease;
+  .contact-list .contact-hint{
+    display:block;
+    color:rgba(255,255,255,0.5);
+    font-size:0.82rem;
+    font-weight:400;
+    margin-top:2px;
   }
-  .social-row a:hover{background:var(--mint-dark);}
 
   .disclaimer{
     border-top:1px solid rgba(255,255,255,0.15);
@@ -535,7 +571,7 @@
   }
 
   @media (min-width:720px){
-    .footer-grid{grid-template-columns:1.3fr 1fr 1fr;}
+    .footer-grid{grid-template-columns:1.3fr 1fr;}
   }
 </style>
 </head>
@@ -548,13 +584,13 @@
       <svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <path d="M12 3C9.5 3 7.5 4.6 6.6 5.9C5.7 7.2 5.4 8.8 5.6 10.7C5.8 12.6 6.3 14.6 6.8 16.3C7.2 17.7 7.6 18.9 8.3 19.6C8.8 20.1 9.3 20.2 9.6 19.8C9.9 19.4 9.9 18.6 9.9 17.8C9.9 16.7 9.9 15.3 10.7 14.5C11.1 14.1 11.6 13.9 12 13.9C12.4 13.9 12.9 14.1 13.3 14.5C14.1 15.3 14.1 16.7 14.1 17.8C14.1 18.6 14.1 19.4 14.4 19.8C14.7 20.2 15.2 20.1 15.7 19.6C16.4 18.9 16.8 17.7 17.2 16.3C17.7 14.6 18.2 12.6 18.4 10.7C18.6 8.8 18.3 7.2 17.4 5.9C16.5 4.6 14.5 3 12 3Z" stroke="#3F9C82" stroke-width="1.6" stroke-linejoin="round"/>
       </svg>
-      Доктор Анна Игоревна
+      Долгова Елена Дмитриевна
     </a>
 
     <nav class="nav-links" aria-label="Основная навигация">
       <a href="#about">О враче</a>
       <a href="#approach">Подход</a>
-      <a href="#gallery">Работы</a>
+      <a href="#gallery">Пример работы</a>
       <a href="#contacts">Контакты</a>
     </nav>
 
@@ -568,7 +604,7 @@
   <nav class="mobile-menu" id="mobileMenu" aria-label="Мобильная навигация">
     <a href="#about">О враче</a>
     <a href="#approach">Подход</a>
-    <a href="#gallery">Работы</a>
+    <a href="#gallery">Пример работы</a>
     <a href="#contacts">Контакты</a>
     <a href="#booking" class="nav-cta">Записаться</a>
   </nav>
@@ -581,7 +617,7 @@
     <div class="wrap">
       <div class="hero-text">
         <span class="eyebrow-free-label">Детский врач-стоматолог</span>
-        <h1>Доктор Анна Игоревна</h1>
+        <h1>Долгова Елена Дмитриевна</h1>
         <p class="slogan">Лечу детей бережно, с уважением и без страха — так, чтобы поход к стоматологу запомнился ребёнку спокойным и даже интересным.</p>
         <div class="hero-buttons">
           <a href="#booking" class="btn-primary">Записаться на приём</a>
@@ -590,18 +626,33 @@
       </div>
 
       <div class="hero-photo-wrap">
-        <!-- Декоративная органическая форма-подложка -->
         <svg class="blob-bg" viewBox="0 0 200 200" aria-hidden="true">
           <path fill="#DCEBE7" d="M45.9,-58.6C58.4,-49.7,66.4,-33.5,69.6,-16.6C72.8,0.4,71.2,18.1,63.2,32.4C55.2,46.7,40.8,57.6,24.5,63.5C8.2,69.4,-10,70.2,-26.1,64.8C-42.2,59.4,-56.2,47.8,-63.8,32.9C-71.4,18,-72.6,-0.2,-67.4,-16.1C-62.2,-32,-50.6,-45.6,-36.6,-54.5C-22.6,-63.4,-11.3,-67.6,3.4,-72.1C18.1,-76.6,33.4,-67.5,45.9,-58.6Z" transform="translate(100 100)"/>
         </svg>
         <div class="hero-photo">
-          <!-- ЗАМЕНИТЬ: фото врача (квадратное, желательно тёплое и живое) -->
-          <img src="https://placehold.co/480x480/EAF6F3/3F9C82?text=Фото+врача" alt="Плейсхолдер: фотография доктора Анны Игоревны с ребёнком-пациентом в кабинете">
+          <img src="assets/doctor.jpg" alt="Долгова Елена Дмитриевна, детский врач-стоматолог">
         </div>
         <svg class="floating-tooth" style="top:-6%; right:2%;" width="46" height="46" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <circle cx="12" cy="12" r="12" fill="#FF9C7A" opacity="0.15"/>
           <path d="M12 6C10 6 8.5 7.2 8 8.2C7.5 9.2 7.3 10.3 7.5 11.6C7.7 12.9 8 14.2 8.4 15.3C8.6 15.9 8.9 16.5 9.4 16.8C9.7 17 10 16.9 10.1 16.6C10.2 16.3 10.2 15.9 10.2 15.4C10.2 14.7 10.3 13.9 10.8 13.4C11 13.2 11.3 13.1 11.5 13.1C11.8 13.1 12 13.2 12.2 13.4C12.7 13.9 12.8 14.7 12.8 15.4C12.8 15.9 12.8 16.3 12.9 16.6C13 16.9 13.3 17 13.6 16.8C14.1 16.5 14.4 15.9 14.6 15.3C15 14.2 15.3 12.9 15.5 11.6C15.7 10.3 15.5 9.2 15 8.2C14.5 7.2 13 6 12 6Z" fill="#E97F5B"/>
         </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ВИДЕО-ЗНАКОМСТВО ===================== -->
+  <section class="video-intro reveal">
+    <div class="wrap">
+      <div class="video-intro-text">
+        <span class="eyebrow-free-label">Видео-знакомство</span>
+        <h2>Пара слов от врача</h2>
+        <p>Короткое видео поможет вам и вашему ребёнку заочно познакомиться со мной ещё до первого визита — это немного снимает тревогу перед приёмом.</p>
+      </div>
+      <div class="video-frame">
+        <video controls playsinline preload="metadata" poster="assets/doctor.jpg">
+          <source src="assets/video-vrach.mp4" type="video/mp4">
+          Ваш браузер не поддерживает воспроизведение видео. <a href="assets/video-vrach.mp4">Скачать видео</a>.
+        </video>
       </div>
     </div>
   </section>
@@ -612,9 +663,9 @@
       <div class="about-text">
         <span class="eyebrow-free-label">О враче</span>
         <h2>Немного о моём пути</h2>
-        <!-- ЗАМЕНИТЬ: реальный текст от первого лица — образование, опыт, философия -->
+        <!-- ЗАМЕНИТЬ при необходимости: реальный текст от первого лица — образование, опыт, философия -->
         <p>Я закончила педиатрический факультет медицинского университета и с первых практик поняла: детская стоматология — это не только про зубы, но и про доверие. Ребёнок, который не боится врача в 5 лет, не боится его и в 25.</p>
-        <p>За годы практики я прошла путь от общего детского приёма до узкой специализации — лечения и профилактики заболеваний зубов и полости рта у детей от 6 месяцев до 17 лет. Постоянно повышаю квалификацию и слежу за современными щадящими методиками.</p>
+        <p>За годы практики я прошла путь от общего детского приёма до узкой специализации — лечения и профилактики заболеваний зубов и полости рта у детей. Постоянно повышаю квалификацию и слежу за современными щадящими методиками.</p>
       </div>
 
       <div class="facts-grid">
@@ -692,62 +743,28 @@
     </div>
   </section>
 
-  <!-- ===================== ГАЛЕРЕЯ КЕЙСОВ ===================== -->
+  <!-- ===================== ПРИМЕР РАБОТЫ (ДО / ПОСЛЕ) ===================== -->
   <section class="gallery reveal" id="gallery">
     <div class="wrap">
-      <span class="eyebrow-free-label">Примеры работ</span>
-      <h2>Несколько историй лечения</h2>
-      <p class="section-intro">Все фото и подписи обезличены — без имён, дат и названий клиник. Нажмите на карточку, чтобы увидеть её крупнее.</p>
+      <span class="eyebrow-free-label">Пример работы</span>
+      <h2>Одна история лечения</h2>
+      <p class="section-intro">Фото и описание обезличены — без имени, даты и названия клиники. Нажмите на фото, чтобы увидеть его крупнее.</p>
 
-      <!-- ЗАМЕНИТЬ: реальные фото "до/после", подписи оставить в том же обезличенном формате -->
-      <div class="gallery-grid" id="galleryGrid">
-        <button class="case-card" data-title="Лечение кариеса молочного зуба" data-meta="Возраст пациента: 5 лет" data-img="https://placehold.co/640x480/EAF6F3/3F9C82?text=Кейс+1">
-          <img src="https://placehold.co/640x480/EAF6F3/3F9C82?text=Кейс+1" alt="Плейсхолдер фото: лечение кариеса молочного зуба, обезличенный кейс">
-          <span class="case-caption">
-            <span class="case-title">Лечение кариеса молочного зуба</span>
-            <span class="case-meta">Возраст пациента: 5 лет</span>
-          </span>
+      <div class="case-compare" id="galleryGrid">
+        <button class="case-photo" data-title="До лечения" data-meta="Закрытие диастемы" data-img="assets/before.jpg">
+          <span class="tag">До</span>
+          <img src="assets/before.jpg" alt="Фото до лечения: промежуток между передними зубами у ребёнка">
         </button>
+        <button class="case-photo" data-title="После лечения" data-meta="Закрытие диастемы" data-img="assets/after.jpg">
+          <span class="tag">После</span>
+          <img src="assets/after.jpg" alt="Фото после лечения: промежуток между передними зубами закрыт">
+        </button>
+      </div>
 
-        <button class="case-card" data-title="Герметизация фиссур" data-meta="Возраст пациента: 7 лет" data-img="https://placehold.co/640x480/FBF3E7/E97F5B?text=Кейс+2">
-          <img src="https://placehold.co/640x480/FBF3E7/E97F5B?text=Кейс+2" alt="Плейсхолдер фото: профилактическая герметизация фиссур, обезличенный кейс">
-          <span class="case-caption">
-            <span class="case-title">Герметизация фиссур</span>
-            <span class="case-meta">Возраст пациента: 7 лет</span>
-          </span>
-        </button>
-
-        <button class="case-card" data-title="Лечение пульпита" data-meta="Возраст пациента: 6 лет" data-img="https://placehold.co/640x480/EAF6F3/3F9C82?text=Кейс+3">
-          <img src="https://placehold.co/640x480/EAF6F3/3F9C82?text=Кейс+3" alt="Плейсхолдер фото: лечение пульпита молочного зуба, обезличенный кейс">
-          <span class="case-caption">
-            <span class="case-title">Лечение пульпита</span>
-            <span class="case-meta">Возраст пациента: 6 лет</span>
-          </span>
-        </button>
-
-        <button class="case-card" data-title="Профессиональная гигиена" data-meta="Возраст пациента: 9 лет" data-img="https://placehold.co/640x480/FBF3E7/E97F5B?text=Кейс+4">
-          <img src="https://placehold.co/640x480/FBF3E7/E97F5B?text=Кейс+4" alt="Плейсхолдер фото: профессиональная гигиена полости рта, обезличенный кейс">
-          <span class="case-caption">
-            <span class="case-title">Профессиональная гигиена</span>
-            <span class="case-meta">Возраст пациента: 9 лет</span>
-          </span>
-        </button>
-
-        <button class="case-card" data-title="Первый адаптационный визит" data-meta="Возраст пациента: 3 года" data-img="https://placehold.co/640x480/EAF6F3/3F9C82?text=Кейс+5">
-          <img src="https://placehold.co/640x480/EAF6F3/3F9C82?text=Кейс+5" alt="Плейсхолдер фото: адаптационный визит к стоматологу, обезличенный кейс">
-          <span class="case-caption">
-            <span class="case-title">Первый адаптационный визит</span>
-            <span class="case-meta">Возраст пациента: 3 года</span>
-          </span>
-        </button>
-
-        <button class="case-card" data-title="Лечение раннего кариеса" data-meta="Возраст пациента: 4 года" data-img="https://placehold.co/640x480/FBF3E7/E97F5B?text=Кейс+6">
-          <img src="https://placehold.co/640x480/FBF3E7/E97F5B?text=Кейс+6" alt="Плейсхолдер фото: лечение раннего кариеса, обезличенный кейс">
-          <span class="case-caption">
-            <span class="case-title">Лечение раннего кариеса</span>
-            <span class="case-meta">Возраст пациента: 4 года</span>
-          </span>
-        </button>
+      <div class="case-text">
+        <!-- ЗАМЕНИТЬ при необходимости: описание кейса -->
+        <p>Закрытие диастемы — промежутка между центральными передними зубами у ребёнка.</p>
+        <p>Лечение прошло спокойно, в комфортном для ребёнка темпе, без слёз и уговоров.</p>
       </div>
     </div>
   </section>
@@ -780,9 +797,8 @@
           ЗАМЕТКА ДЛЯ РАЗРАБОТЧИКА:
           Форма ниже — заглушка без реальной отправки данных.
           Чтобы подключить приём заявок, замените обработчик submit в <script>
-          на fetch-запрос к вашему бэкенду / сервису форм (например, свою API,
-          Telegram-бота, Google Forms/Sheets, CRM и т.п.), либо укажите атрибуты
-          action и method и уберите preventDefault().
+          на fetch-запрос к своему бэкенду, Telegram-боту или сервису форм,
+          либо укажите атрибуты action и method и уберите preventDefault().
         -->
         <form id="bookingForm" novalidate>
           <div class="field">
@@ -805,51 +821,38 @@
     <div class="wrap">
       <div class="footer-grid">
         <div class="footer-col">
-          <h3>Доктор Анна Игоревна</h3>
-          <p style="color:rgba(255,255,255,0.65); max-width:40ch;">Детский врач-стоматолог. Приём детей от 6 месяцев до 17 лет.</p>
+          <h3>Долгова Елена Дмитриевна</h3>
+          <p style="color:rgba(255,255,255,0.65); max-width:40ch;">Детский врач-стоматолог.</p>
         </div>
 
         <div class="footer-col">
-          <h3>Контакты</h3>
-          <!-- ЗАМЕНИТЬ: реальные номер телефона и мессенджеры -->
+          <h3>Telegram</h3>
           <ul class="contact-list">
             <li>
-              <a href="tel:+70000000000">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.4c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1L6.6 10.8z" stroke="currentColor" stroke-width="1.4"/></svg>
-                +7 (000) 000-00-00
-              </a>
-            </li>
-            <li>
-              <a href="https://t.me/example" target="_blank" rel="noopener">
+              <a href="https://t.me/e_ryumina" target="_blank" rel="noopener">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 4L3 11.5l6 2M21 4L15.5 20l-6.5-6.5M21 4L8.5 13.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                Telegram
+                <span>
+                  Канал с полезной информацией
+                  <span class="contact-hint">t.me/e_ryumina</span>
+                </span>
               </a>
             </li>
             <li>
-              <a href="https://wa.me/70000000000" target="_blank" rel="noopener">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3a9 9 0 00-7.8 13.5L3 21l4.7-1.2A9 9 0 1012 3z" stroke="currentColor" stroke-width="1.4"/></svg>
-                WhatsApp
+              <a href="https://t.me/dolgovfm" target="_blank" rel="noopener">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 4L3 11.5l6 2M21 4L15.5 20l-6.5-6.5M21 4L8.5 13.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>
+                  Написать лично
+                  <span class="contact-hint">@dolgovfm</span>
+                </span>
               </a>
             </li>
           </ul>
-        </div>
-
-        <div class="footer-col">
-          <h3>Соцсети</h3>
-          <div class="social-row">
-            <a href="#" aria-label="Instagram" target="_blank" rel="noopener">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.4"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
-            </a>
-            <a href="#" aria-label="ВКонтакте" target="_blank" rel="noopener">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 4h16v16H4z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M8 8c0 5 3 8 8 8" stroke="currentColor" stroke-width="1.4"/></svg>
-            </a>
-          </div>
         </div>
       </div>
 
       <div class="disclaimer">
         <p><strong>Внимание:</strong> информация на сайте не является медицинской консультацией. Имеются противопоказания, необходима консультация специалиста.</p>
-        <p class="copyright">© 2026 Доктор Долгова Елена Дмитриевна</p>
+        <p class="copyright">© 2026 Долгова Елена Дмитриевна. Фотографии пациентов размещены обезличенно.</p>
       </div>
     </div>
   </footer>
@@ -867,7 +870,6 @@
     burgerBtn.setAttribute('aria-label', isOpen ? 'Закрыть меню' : 'Открыть меню');
   });
 
-  // Закрываем мобильное меню при переходе по ссылке
   mobileMenu.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', () => {
       mobileMenu.classList.remove('open');
@@ -914,7 +916,7 @@
   }
 
   galleryGrid.addEventListener('click', (e) => {
-    const card = e.target.closest('.case-card');
+    const card = e.target.closest('.case-photo');
     if (card) openLightbox(card);
   });
 
@@ -933,7 +935,6 @@
   bookingForm.addEventListener('submit', (e) => {
     e.preventDefault();
     // ЗДЕСЬ подключить реальную отправку данных на сервер/CRM/бота (см. комментарий выше формы).
-    // Пример: fetch('/api/booking', { method:'POST', body: new FormData(bookingForm) })
     formSuccess.classList.add('show');
     bookingForm.reset();
     formSuccess.scrollIntoView({ behavior:'smooth', block:'nearest' });
