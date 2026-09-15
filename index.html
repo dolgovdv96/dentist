@@ -116,14 +116,16 @@
     align-items:center;
     gap:10px;
     text-decoration:none;
+    white-space:nowrap;
   }
   .nav-logo svg{flex-shrink:0;}
 
   nav.nav-links{
     display:none;
-    gap:28px;
+    gap:24px;
   }
   nav.nav-links a{
+    white-space:nowrap;
     text-decoration:none;
     font-weight:700;
     color:var(--ink-soft);
@@ -134,6 +136,7 @@
 
   .nav-cta{
     display:none;
+    white-space:nowrap;
     background:var(--coral);
     color:#fff;
     border:none;
@@ -151,6 +154,7 @@
 
   .burger{
     display:flex;
+    flex-direction:column;
     background:none;
     border:none;
     cursor:pointer;
@@ -186,7 +190,7 @@
   }
   .mobile-menu .nav-cta{display:inline-block; text-align:center; margin-top:12px;}
 
-  @media (min-width:900px){
+  @media (min-width:1180px){
     nav.nav-links{display:flex;}
     .nav-cta{display:inline-block;}
     .burger{display:none;}
@@ -217,6 +221,30 @@
     margin-bottom:32px;
   }
   .hero-buttons{display:flex; flex-wrap:wrap; gap:14px;}
+
+  /* Telegram-контакты прямо под именем врача */
+  .hero-telegram{
+    list-style:none; margin:0 0 28px; padding:0;
+    display:flex; flex-wrap:wrap; gap:10px;
+    scroll-margin-top:110px;
+  }
+  .hero-telegram a{
+    display:flex; align-items:center; gap:10px;
+    text-decoration:none;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:100px;
+    padding:8px 18px 8px 8px;
+    font-weight:700; font-size:0.95rem;
+    transition:border-color 0.2s ease;
+  }
+  .hero-telegram a:hover{border-color:var(--sky);}
+  .hero-telegram .tg-icon{
+    width:34px; height:34px; border-radius:50%;
+    background:#E3F2FA; color:#2A89BE;
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .hero-telegram .tg-hint{display:block; font-weight:400; font-size:0.8rem; color:var(--ink-soft); line-height:1.2;}
   .btn-primary{
     background:var(--coral);
     color:#fff;
@@ -294,20 +322,27 @@
   }
   .video-intro-text h2{font-size:clamp(1.6rem,3vw,2.1rem); max-width:20ch;}
   .video-intro-text p{color:var(--ink-soft); max-width:52ch; font-size:1.03rem;}
+  /* Рамка повторяет пропорции вертикального видео (9:16),
+     поэтому по бокам не появляются чёрные полосы */
   .video-frame{
+    width:min(100%, 360px);
+    aspect-ratio:9/16;
+    justify-self:center;
     border-radius:var(--radius-lg);
     overflow:hidden;
     box-shadow:var(--shadow);
-    background:#000;
+    background:var(--bg-alt);
   }
   .video-frame video{
     width:100%;
+    height:100%;
     display:block;
-    max-height:520px;
+    object-fit:cover; /* обложка (poster) тоже заполняет рамку целиком */
   }
 
   @media (min-width:900px){
-    .video-intro .wrap{grid-template-columns:0.85fr 1.15fr; align-items:center;}
+    .video-intro .wrap{grid-template-columns:minmax(0,520px) auto; justify-content:center; align-items:center; gap:80px;}
+    .video-frame{width:340px;}
   }
 
   /* ===================== О СЕБЕ ===================== */
@@ -336,6 +371,7 @@
     color:var(--mint-dark);
     display:block;
   }
+  .fact-number svg{display:block; margin:4px 0 6px;}
   .fact-label{
     color:var(--ink-soft);
     font-size:0.95rem;
@@ -346,49 +382,147 @@
     .about .wrap{grid-template-columns:1.1fr 0.9fr; align-items:center;}
   }
 
-  /* ===================== ПОДХОД К ЛЕЧЕНИЮ ===================== */
-  .approach{background:var(--bg-alt);}
-  .approach h2{font-size:clamp(1.7rem,3.2vw,2.3rem); max-width:20ch;}
-  .approach > .wrap > p{color:var(--ink-soft); max-width:60ch; font-size:1.05rem; margin-bottom:40px;}
+  /* ===================== КАК ПРОХОДИТ ЛЕЧЕНИЕ (ПРОЦЕСС) ===================== */
+  .process{background:var(--bg-alt);}
+  .process .wrap{display:grid; gap:40px;}
+  .process-head h2{font-size:clamp(1.7rem,3.2vw,2.3rem); max-width:18ch;}
+  .process-head p{color:var(--ink-soft); max-width:46ch; font-size:1.05rem;}
 
-  .approach-grid{
-    display:grid;
-    grid-template-columns:1fr;
-    gap:18px;
+  /* Вертикальная линия-маршрут: от «Старта» до «Результата» */
+  .steps{
+    list-style:none; margin:0; padding:0;
+    position:relative;
   }
-  .approach-card{
+  /* Соединительная линия между шагами (у последнего шага её нет — это финиш) */
+  .step:not(:last-child)::before{
+    content:"";
+    position:absolute;
+    left:22.5px; top:48px; bottom:0;
+    width:3px;
+    background:#BFE3D8;
+  }
+  .step--start::before{background:linear-gradient(180deg, #FFC7B3, #BFE3D8) !important;}
+  .step{
+    position:relative;
+    display:grid;
+    grid-template-columns:48px 1fr;
+    gap:18px;
+    padding-bottom:22px;
+  }
+  .step:last-child{padding-bottom:0;}
+  .step-marker{
+    width:48px; height:48px;
+    border-radius:50%;
     background:var(--card);
-    border-radius:var(--radius-lg);
-    padding:28px 26px;
+    border:3px solid var(--mint);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Manrope',sans-serif; font-weight:800; font-size:1.05rem;
+    color:var(--mint-dark);
+    position:relative; z-index:1;
+  }
+  .step-body{
+    background:var(--card);
+    border-radius:var(--radius-md);
+    padding:20px 22px;
     box-shadow:var(--shadow);
   }
-  .approach-card:nth-child(3n+2){background:var(--card-beige);}
-  .approach-card .icon{
-    width:52px; height:52px;
-    display:flex; align-items:center; justify-content:center;
-    background:var(--bg-alt);
-    border-radius:16px;
-    margin-bottom:18px;
-    color:var(--mint-dark);
-  }
-  .approach-card:nth-child(3n+2) .icon{background:var(--bg);}
-  .approach-card h3{font-size:1.15rem;}
-  .approach-card p{color:var(--ink-soft); font-size:0.98rem; margin:0;}
+  .step-body h3{font-size:1.12rem; margin-bottom:6px;}
+  .step-body p{color:var(--ink-soft); font-size:0.98rem; margin:0;}
+  .step-body p + p{margin-top:8px;}
 
-  @media (min-width:720px){
-    .approach-grid{grid-template-columns:repeat(2,1fr);}
-    .approach-card:first-child{grid-column:1 / -1;}
-    .approach-card:first-child{
-      display:grid;
-      grid-template-columns:auto 1fr;
-      align-items:center;
-      gap:22px;
-    }
-    .approach-card:first-child .icon{margin-bottom:0;}
+  /* Первый и последний шаги выделены: откуда начинаем и к чему приходим */
+  .step-flag{
+    display:inline-block;
+    font-size:0.8rem; font-weight:700;
+    padding:3px 12px; border-radius:100px;
+    margin-bottom:10px;
   }
-  @media (min-width:1000px){
-    .approach-grid{grid-template-columns:repeat(3,1fr);}
-    .approach-card:first-child{grid-column:span 2;}
+  .step--start .step-marker{border-color:var(--coral); color:var(--coral-dark);}
+  .step--start .step-flag{background:#FFE9E0; color:#B8583A;}
+  .step--finish .step-marker{background:var(--mint-dark); border-color:var(--mint-dark); color:#fff;}
+  .step--finish .step-flag{background:var(--bg-alt); color:var(--mint-dark);}
+  .step--finish .step-body{background:var(--card-beige);}
+
+  /* Отдельно подсвечиваем шаг с финансовым планом — он важен родителям */
+  .step-note{
+    margin-top:12px !important;
+    padding:12px 14px;
+    border-radius:12px;
+    background:var(--bg);
+    border-left:3px solid var(--mint);
+    color:var(--ink) !important;
+    font-size:0.95rem !important;
+  }
+
+  @media (min-width:960px){
+    .process .wrap{grid-template-columns:0.8fr 1.2fr; align-items:start; gap:64px;}
+    .process-head{position:sticky; top:110px;}
+  }
+
+  /* ===================== ЗАКИСЬ АЗОТА И НАРКОЗ ===================== */
+  .sedation h2{font-size:clamp(1.7rem,3.2vw,2.3rem); max-width:22ch;}
+  .sedation .section-intro{color:var(--ink-soft); max-width:62ch; font-size:1.05rem; margin-bottom:36px;}
+  .sedation-grid{display:grid; gap:20px;}
+  .sedation-card{
+    border-radius:var(--radius-lg);
+    padding:30px 28px;
+    box-shadow:var(--shadow);
+    background:var(--card);
+  }
+  .sedation-card--gas{background:linear-gradient(160deg,#FFFFFF 0%, #EAF5FB 100%);}
+  .sedation-card--ga{background:linear-gradient(160deg,#FFFFFF 0%, var(--card-beige) 100%);}
+  .sedation-card .kicker{display:block; font-weight:700; color:var(--mint-dark); font-size:0.95rem; margin-bottom:6px;}
+  .sedation-card h3{font-size:1.4rem; margin-bottom:12px;}
+  .sedation-card > p{color:var(--ink-soft); font-size:1rem;}
+  .check-list{list-style:none; margin:18px 0 0; padding:0; display:grid; gap:10px;}
+  .check-list li{
+    position:relative; padding-left:30px;
+    color:var(--ink); font-size:0.98rem;
+  }
+  .check-list li::before{
+    content:""; position:absolute; left:0; top:4px;
+    width:18px; height:18px; border-radius:50%;
+    background:var(--mint) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.5l4 4 8-9' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/12px no-repeat;
+  }
+  .prep-box{
+    margin-top:20px;
+    background:var(--card);
+    border:2px dashed var(--line);
+    border-radius:var(--radius-md);
+    padding:16px 18px;
+  }
+  .prep-box strong{display:block; margin-bottom:4px;}
+  .prep-box p{margin:0; color:var(--ink-soft); font-size:0.95rem;}
+  .sedation-foot{margin-top:22px; color:var(--ink-soft); font-size:0.92rem; max-width:70ch;}
+  @media (min-width:860px){
+    .sedation-grid{grid-template-columns:1fr 1fr;}
+  }
+
+  /* ===================== ОБУЧЕНИЕ ===================== */
+  .education{background:var(--bg-alt);}
+  .education .wrap{display:grid; gap:36px;}
+  .education h2{font-size:clamp(1.7rem,3.2vw,2.3rem); max-width:18ch;}
+  .education-text p{color:var(--ink-soft); max-width:58ch; font-size:1.05rem;}
+  .cert-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:14px;}
+  /* Заглушка сертификата — удалить, когда появятся настоящие */
+  .cert-placeholder{
+    aspect-ratio:3/4;
+    border:2px dashed #BFDAD3;
+    border-radius:var(--radius-md);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; gap:10px; padding:16px;
+    color:var(--ink-soft); font-size:0.9rem;
+    background:rgba(255,255,255,0.5);
+  }
+  .cert-placeholder svg{color:var(--mint-dark);}
+  /* Настоящий сертификат (кнопка с картинкой, открывается в лайтбоксе) */
+  .cert-item{
+    border:none; padding:0; background:var(--card); cursor:pointer;
+    border-radius:var(--radius-md); overflow:hidden; box-shadow:var(--shadow);
+  }
+  .cert-item img{width:100%; aspect-ratio:3/4; object-fit:cover;}
+  @media (min-width:860px){
+    .education .wrap{grid-template-columns:1fr 1fr; align-items:center;}
   }
 
   /* ===================== ПРИМЕР РАБОТЫ (ДО / ПОСЛЕ) ===================== */
@@ -458,7 +592,7 @@
     width:100%;
     overflow:hidden;
   }
-  .lightbox-inner img{width:100%; aspect-ratio:4/3; object-fit:cover;}
+  .lightbox-inner img{width:100%; max-height:75vh; object-fit:contain; background:var(--bg);}
   .lightbox-caption{padding:18px 22px 22px; display:flex; align-items:flex-start; justify-content:space-between; gap:12px;}
   .lightbox-close{
     background:var(--bg-alt);
@@ -469,6 +603,58 @@
     cursor:pointer;
     flex-shrink:0;
     color:var(--ink);
+  }
+
+  /* ===================== О СЕБЕ: акцент на ценностях ===================== */
+  .about-values{
+    margin-top:22px;
+    background:var(--card-beige);
+    border-radius:var(--radius-md);
+    padding:18px 22px;
+    max-width:64ch;
+  }
+  .about-values p{margin:0; color:var(--ink) !important; font-weight:600;}
+
+  /* ===================== ЧАСТЫЕ ВОПРОСЫ ===================== */
+  .faq .wrap{display:grid; gap:36px;}
+  .faq h2{font-size:clamp(1.7rem,3.2vw,2.3rem); max-width:18ch;}
+  .faq-head p{color:var(--ink-soft); max-width:44ch; font-size:1.05rem;}
+  .faq-list{display:grid; gap:12px;}
+  .faq-item{
+    background:var(--card);
+    border-radius:var(--radius-md);
+    box-shadow:var(--shadow);
+  }
+  .faq-item summary{
+    list-style:none;
+    cursor:pointer;
+    display:flex; align-items:center; justify-content:space-between; gap:16px;
+    padding:20px 22px;
+    font-family:'Manrope',sans-serif; font-weight:700; font-size:1.08rem;
+    color:var(--ink);
+  }
+  .faq-item summary::-webkit-details-marker{display:none;}
+  .faq-item summary:focus-visible{outline:3px solid var(--sky); outline-offset:3px; border-radius:var(--radius-md);}
+  /* Плюс, который превращается в минус при открытии */
+  .faq-toggle{
+    width:32px; height:32px; flex-shrink:0; border-radius:50%;
+    background:var(--bg-alt); position:relative;
+  }
+  .faq-toggle::before, .faq-toggle::after{
+    content:""; position:absolute; left:50%; top:50%;
+    width:12px; height:2px; background:var(--mint-dark); border-radius:2px;
+    transform:translate(-50%,-50%);
+    transition:transform 0.25s ease;
+  }
+  .faq-toggle::after{transform:translate(-50%,-50%) rotate(90deg);}
+  .faq-item[open] .faq-toggle::after{transform:translate(-50%,-50%) rotate(0deg);}
+  .faq-answer{padding:0 22px 22px; color:var(--ink-soft); font-size:1rem;}
+  .faq-answer p{margin:0 0 10px; max-width:68ch;}
+  .faq-answer p:last-child{margin-bottom:0;}
+  .faq-answer strong{color:var(--ink);}
+  @media (min-width:960px){
+    .faq .wrap{grid-template-columns:0.75fr 1.25fr; align-items:start; gap:64px;}
+    .faq-head{position:sticky; top:110px;}
   }
 
   /* ===================== CTA + ФОРМА ===================== */
@@ -507,7 +693,23 @@
     background:var(--bg);
     color:var(--ink);
   }
-  .cta-form input:focus{border-color:var(--mint-dark); outline:none;}
+  .cta-form textarea{
+    width:100%; min-height:110px; resize:vertical;
+    padding:13px 16px; border-radius:12px; border:2px solid var(--line);
+    font-family:'Nunito', sans-serif; font-size:1rem; line-height:1.5;
+    background:var(--bg); color:var(--ink);
+  }
+  .cta-form input:focus, .cta-form textarea:focus{border-color:var(--mint-dark); outline:none;}
+  .field-hint{display:block; font-weight:400; color:var(--ink-soft); font-size:0.85rem; margin-top:4px;}
+  .cta-form label.consent{font-weight:400; color:var(--ink-soft); font-size:0.9rem;}
+  .consent{display:flex; gap:10px; align-items:flex-start; margin:4px 0 18px; font-size:0.9rem; color:var(--ink-soft);}
+  .consent input{width:18px; height:18px; margin-top:3px; flex-shrink:0; accent-color:var(--mint-dark);}
+  .form-notice{
+    display:none; background:#FFF3EC; color:#8A3F24;
+    border-radius:12px; padding:14px 16px; font-weight:600; margin-bottom:16px;
+  }
+  .form-notice.show{display:block;}
+  .form-notice a{color:#8A3F24; font-weight:800;}
   .cta-form .btn-primary{width:100%; text-align:center; border:none;}
   .form-note{font-size:0.85rem; color:var(--ink-soft); margin-top:12px; margin-bottom:0;}
   .form-success{
@@ -571,7 +773,7 @@
   }
 
   @media (min-width:720px){
-    .footer-grid{grid-template-columns:1.3fr 1fr;}
+    .footer-grid{grid-template-columns:1fr;}
   }
 </style>
 </head>
@@ -589,8 +791,10 @@
 
     <nav class="nav-links" aria-label="Основная навигация">
       <a href="#about">О враче</a>
-      <a href="#approach">Подход</a>
-      <a href="#gallery">Пример работы</a>
+      <a href="#process">Лечение</a>
+      <a href="#sedation">Закись и наркоз</a>
+      <a href="#education">Обучение</a>
+      <a href="#faq">Вопросы</a>
       <a href="#contacts">Контакты</a>
     </nav>
 
@@ -603,8 +807,11 @@
 
   <nav class="mobile-menu" id="mobileMenu" aria-label="Мобильная навигация">
     <a href="#about">О враче</a>
-    <a href="#approach">Подход</a>
+    <a href="#process">Как проходит лечение</a>
+    <a href="#sedation">Закись азота и наркоз</a>
+    <a href="#education">Обучение</a>
     <a href="#gallery">Пример работы</a>
+    <a href="#faq">Частые вопросы</a>
     <a href="#contacts">Контакты</a>
     <a href="#booking" class="nav-cta">Записаться</a>
   </nav>
@@ -619,9 +826,26 @@
         <span class="eyebrow-free-label">Детский врач-стоматолог</span>
         <h1>Долгова Елена Дмитриевна</h1>
         <p class="slogan">Лечу детей бережно, с уважением и без страха — так, чтобы поход к стоматологу запомнился ребёнку спокойным и даже интересным.</p>
+
+        <!-- Telegram: канал и личные сообщения. ЗАМЕНИТЬ ссылки при необходимости -->
+        <ul class="hero-telegram" id="contacts" aria-label="Связаться в Telegram">
+          <li>
+            <a href="https://t.me/e_ryumina" target="_blank" rel="noopener">
+              <span class="tg-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 4L3 11.5l6 2M21 4L15.5 20l-6.5-6.5M21 4L8.5 13.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <span>Telegram-канал<span class="tg-hint">полезное для родителей</span></span>
+            </a>
+          </li>
+          <li>
+            <a href="https://t.me/dolgovfm" target="_blank" rel="noopener">
+              <span class="tg-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 4L3 11.5l6 2M21 4L15.5 20l-6.5-6.5M21 4L8.5 13.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <span>Написать лично<span class="tg-hint">@dolgovfm</span></span>
+            </a>
+          </li>
+        </ul>
+
         <div class="hero-buttons">
           <a href="#booking" class="btn-primary">Записаться на приём</a>
-          <a href="#approach" class="btn-secondary">Как проходит приём</a>
+          <a href="#process" class="btn-secondary">Как проходит лечение</a>
         </div>
       </div>
 
@@ -665,17 +889,21 @@
         <h2>Немного о моём пути</h2>
         <!-- ЗАМЕНИТЬ при необходимости: реальный текст от первого лица — образование, опыт, философия -->
         <p>Я закончила педиатрический факультет медицинского университета и с первых практик поняла: детская стоматология — это не только про зубы, но и про доверие. Ребёнок, который не боится врача в 5 лет, не боится его и в 25.</p>
-        <p>За годы практики я прошла путь от общего детского приёма до узкой специализации — лечения и профилактики заболеваний зубов и полости рта у детей. Постоянно повышаю квалификацию и слежу за современными щадящими методиками.</p>
+        <p>За годы практики я прошла путь от общего детского приёма до узкой специализации — лечения и профилактики заболеваний зубов и полости рта у детей.</p>
+        <p>У меня второе высшее образование — психологическое. Оно помогает понять, что чувствует ребёнок в стоматологическом кресле, найти подход даже к самому тревожному малышу и объяснить происходящее понятными ему словами.</p>
+        <div class="about-values">
+          <p>На первом месте для меня всегда безопасность ребёнка и спокойствие родителя.</p>
+        </div>
       </div>
 
       <div class="facts-grid">
         <!-- ЗАМЕНИТЬ: реальные цифры -->
         <div class="fact-card">
-          <span class="fact-number">9 лет</span>
+          <span class="fact-number">5 лет</span>
           <span class="fact-label">практики в детской стоматологии</span>
         </div>
         <div class="fact-card">
-          <span class="fact-number">2000+</span>
+          <span class="fact-number">800+</span>
           <span class="fact-label">маленьких пациентов</span>
         </div>
         <div class="fact-card">
@@ -683,61 +911,165 @@
           <span class="fact-label">лет — возраст пациентов</span>
         </div>
         <div class="fact-card">
-          <span class="fact-number">100%</span>
-          <span class="fact-label">приёмов без криков и слёз — наша цель</span>
+          <span class="fact-number" aria-hidden="true">
+            <svg width="38" height="38" viewBox="0 0 24 24" fill="none"><path d="M12 20.5s-7.5-4.6-9.2-9.6C1.6 7.3 3.9 4 7.3 4c2.1 0 3.6 1.2 4.7 2.7C13.1 5.2 14.6 4 16.7 4c3.4 0 5.7 3.3 4.5 6.9-1.7 5-9.2 9.6-9.2 9.6z" fill="#7FCFB6"/></svg>
+          </span>
+          <span class="fact-label">счастливые, здоровые дети и спокойные родители — главный результат</span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ===================== ПОДХОД К ЛЕЧЕНИЮ ===================== -->
-  <section class="approach reveal" id="approach">
+  <!-- ===================== КАК ПРОХОДИТ ЛЕЧЕНИЕ (ПРОЦЕСС ОТ СТАРТА ДО РЕЗУЛЬТАТА) ===================== -->
+  <section class="process reveal" id="process">
     <div class="wrap">
-      <span class="eyebrow-free-label">Подход к лечению</span>
-      <h2>Как я выстраиваю приём</h2>
-      <p>Каждый ребёнок индивидуален, но есть принципы, которых я придерживаюсь всегда — они помогают снять тревогу и у детей, и у родителей.</p>
+      <div class="process-head">
+        <span class="eyebrow-free-label">Как проходит лечение</span>
+        <h2>Путь от первого сообщения до здоровой улыбки</h2>
+        <p>Родителям важно понимать, что будет происходить с ребёнком. Поэтому весь путь я выстраиваю одинаково понятно: вы всегда знаете, на каком мы этапе и что будет дальше.</p>
+      </div>
 
-      <div class="approach-grid">
-        <div class="approach-card">
-          <div class="icon">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 21s-7-4.35-9.5-9.1C1 8.5 2.5 5 6 5c2 0 3.5 1.2 4 2.2C10.5 6.2 12 5 14 5c3.5 0 5 3.5 3.5 6.9C15 16.65 12 21 12 21z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+      <!-- Шаги процесса. Чтобы добавить шаг — скопируйте блок <li class="step">, номера поправьте вручную -->
+      <ol class="steps">
+        <li class="step step--start">
+          <span class="step-marker" aria-hidden="true">1</span>
+          <div class="step-body">
+            <span class="step-flag">Старт</span>
+            <h3>Вы пишете мне</h3>
+            <p>Напишите в Telegram или оставьте заявку на сайте. Я отвечу, мы подберём удобное время, и я заранее подскажу, как настроить ребёнка на визит.</p>
           </div>
-          <div>
-            <h3>Лечение без страха и боли</h3>
-            <p>Использую современные методы обезболивания и мягкую коммуникацию, чтобы ребёнок чувствовал себя в безопасности на каждом этапе приёма.</p>
+        </li>
+
+        <li class="step">
+          <span class="step-marker" aria-hidden="true">2</span>
+          <div class="step-body">
+            <h3>Знакомство с кабинетом</h3>
+            <p>Первая встреча начинается не с лечения. Ребёнок осматривается, знакомится со мной и инструментами в игровой форме и садится в кресло, когда сам готов. Если ему нужно больше времени — мы его даём.</p>
           </div>
+        </li>
+
+        <li class="step">
+          <span class="step-marker" aria-hidden="true">3</span>
+          <div class="step-body">
+            <h3>Бережный осмотр и диагностика</h3>
+            <p>Осматриваю зубы и дёсны, при необходимости делаю снимки. Всё, что вижу, показываю и объясняю вам простыми словами — без сложных терминов.</p>
+          </div>
+        </li>
+
+        <li class="step">
+          <span class="step-marker" aria-hidden="true">4</span>
+          <div class="step-body">
+            <h3>План лечения и финансовый план</h3>
+            <p>Вы получаете понятный план: что важно сделать сейчас, что может подождать, а за чем достаточно наблюдать. Если есть несколько вариантов — рассказываю, чем они отличаются.</p>
+            <p class="step-note">К плану лечения я составляю финансовый план — с оптимальным балансом между качеством и стоимостью. Предлагаю только то, что действительно нужно вашему ребёнку, и не навязываю лишних услуг. Решение всегда остаётся за вами.</p>
+          </div>
+        </li>
+
+        <li class="step">
+          <span class="step-marker" aria-hidden="true">5</span>
+          <div class="step-body">
+            <h3>Выбираем, как лечиться</h3>
+            <p>Вместе решаем, какой формат подойдёт ребёнку: обычный приём с обезболиванием, лечение в закиси азота или, в особых случаях, под наркозом. <a href="#sedation">Подробнее о закиси азота и наркозе</a>.</p>
+          </div>
+        </li>
+
+        <li class="step">
+          <span class="step-marker" aria-hidden="true">6</span>
+          <div class="step-body">
+            <h3>Лечение в спокойном темпе</h3>
+            <p>Работаю щадящими методиками и с обезболиванием, объясняю ребёнку каждое действие понятными ему словами. Вы в курсе того, что происходит, на каждом этапе.</p>
+          </div>
+        </li>
+
+        <li class="step step--finish">
+          <span class="step-marker" aria-hidden="true">7</span>
+          <div class="step-body">
+            <span class="step-flag">Результат</span>
+            <h3>Профилактика и наблюдение</h3>
+            <p>После лечения рассказываю, как ухаживать за зубами дома, и приглашаю на регулярные профилактические осмотры. Наша общая цель — здоровые зубы и ребёнок, который не боится стоматолога.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ===================== ЗАКИСЬ АЗОТА И НАРКОЗ ===================== -->
+  <section class="sedation reveal" id="sedation">
+    <div class="wrap">
+      <span class="eyebrow-free-label">Спокойное лечение</span>
+      <h2>Лечение в закиси азота и под наркозом</h2>
+      <p class="section-intro">Страх и напряжение мешают и ребёнку, и врачу. Поэтому я помогаю детям расслабиться с помощью седации. Способ всегда подбираем индивидуально — после осмотра и разговора с вами.</p>
+
+      <div class="sedation-grid">
+        <!-- Карточка: закись азота -->
+        <article class="sedation-card sedation-card--gas">
+          <span class="kicker">Мой основной выбор для детей</span>
+          <h3>Закись азота</h3>
+          <p>Закись азота — лёгкая седация, один из самых мягких и хорошо изученных способов сделать лечение комфортным. Ребёнок дышит через маленькую маску, расслабляется и перестаёт тревожиться, но остаётся в сознании и может разговаривать со мной.</p>
+          <ul class="check-list">
+            <li><strong>Безопасно.</strong> Ребёнок в сознании и дышит сам, а действие газа проходит через несколько минут после окончания приёма.</li>
+            <li><strong>Безболезненно.</strong> Обезболивание делаю, когда ребёнок уже расслаблен, — поэтому само лечение проходит спокойно и без боли.</li>
+            <li><strong>Без лишнего стресса.</strong> У ребёнка остаются спокойные воспоминания о визите, а не страх перед стоматологом на годы вперёд.</li>
+            <li><strong>Сразу домой.</strong> После приёма ребёнок быстро возвращается в обычное состояние и уходит вместе с вами.</li>
+          </ul>
+          <p style="margin-top:18px; color:var(--ink);">Я рекомендую лечить зубы у детей в закиси азота — так визит к стоматологу проходит спокойно и для ребёнка, и для вас.</p>
+        </article>
+
+        <!-- Карточка: наркоз -->
+        <article class="sedation-card sedation-card--ga">
+          <span class="kicker">Для особых случаев</span>
+          <h3>Лечение под наркозом</h3>
+          <p>Наркоз я предлагаю не всем, а только когда он действительно нужен: например, если маленькому ребёнку нужно вылечить много зубов, при очень сильной тревожности или особенностях здоровья и развития, когда лечение другим способом невозможно.</p>
+          <ul class="check-list">
+            <li><strong>Максимально безопасно.</strong> Современные препараты, мягкое засыпание и пробуждение.</li>
+            <li><strong>Под постоянным контролем.</strong> Состояние ребёнка отслеживается на протяжении всего лечения.</li>
+            <li><strong>За один визит.</strong> Всё необходимое лечение проводится за одно посещение.</li>
+            <li><strong>Наблюдение после.</strong> Ребёнок уходит домой только тогда, когда полностью готов.</li>
+          </ul>
+          <div class="prep-box">
+            <strong>Подготовка и допуск к наркозу</strong>
+            <p>Перед наркозом ребёнок сдаёт анализы — это обязательное условие допуска. Так мы заранее убеждаемся, что наркоз безопасен именно для вашего ребёнка. Точный список анализов я дам на консультации.</p>
+          </div>
+        </article>
+      </div>
+
+      <p class="sedation-foot">Решение о лечении в закиси азота или под наркозом принимается только после очной консультации. Имеются противопоказания, необходима консультация специалиста.</p>
+    </div>
+  </section>
+
+  <!-- ===================== ОБУЧЕНИЕ ===================== -->
+  <section class="education reveal" id="education">
+    <div class="wrap">
+      <div class="education-text">
+        <span class="eyebrow-free-label">Обучение</span>
+        <h2>Постоянно учусь, чтобы лечить лучше</h2>
+        <p>Детская стоматология быстро развивается: появляются новые материалы, более щадящие методики и подходы к работе с детьми.</p>
+        <p>Я регулярно прохожу курсы повышения квалификации и слежу за новыми тенденциями — чтобы лечить ваших детей так, как это принято сегодня.</p>
+        <p>Скоро здесь появятся сертификаты пройденных курсов.</p>
+      </div>
+
+      <div class="cert-grid" id="certGrid">
+        <!--
+          КАК ДОБАВИТЬ СЕРТИФИКАТ:
+          1) Положите скан в папку assets/certs/ (например, assets/certs/cert-1.jpg).
+             Перед публикацией закройте на скане личные данные, если они там есть.
+          2) Замените один блок-заглушку <div class="cert-placeholder"> на такой:
+
+          <button class="cert-item" data-img="assets/certs/cert-1.jpg"
+                  data-title="Название курса" data-meta="Год прохождения">
+            <img src="assets/certs/cert-1.jpg" alt="Сертификат: название курса" loading="lazy">
+          </button>
+
+          По клику сертификат откроется крупно — так же, как фото в «Примере работы».
+          Когда появится последний сертификат, удалите фразу «Скоро здесь появятся сертификаты…» выше.
+        -->
+        <div class="cert-placeholder">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M8 8h8M8 12h8M8 16h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          Место для сертификата
         </div>
-
-        <div class="approach-card">
-          <div class="icon">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-          </div>
-          <h3>Адаптация к кабинету</h3>
-          <p>Перед лечением знакомлю ребёнка с инструментами и кабинетом в игровой форме — так первый визит проходит спокойно.</p>
-        </div>
-
-        <div class="approach-card">
-          <div class="icon">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6l7-3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
-          </div>
-          <h3>Только щадящие методики</h3>
-          <p>Выбираю максимально комфортные и безопасные способы лечения с учётом возраста и особенностей ребёнка.</p>
-        </div>
-
-        <div class="approach-card">
-          <div class="icon">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 5h16M4 12h16M4 19h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-          </div>
-          <h3>Понятно объясняю родителям</h3>
-          <p>Рассказываю простым языком, что происходит и почему, без сложных терминов — вы всегда понимаете картину лечения.</p>
-        </div>
-
-        <div class="approach-card">
-          <div class="icon">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-          </div>
-          <h3>Профилактика важнее лечения</h3>
-          <p>Уделяю внимание гигиене, питанию и регулярным осмотрам, чтобы большинства проблем можно было избежать заранее.</p>
+        <div class="cert-placeholder">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M8 8h8M8 12h8M8 16h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          Место для сертификата
         </div>
       </div>
     </div>
@@ -770,7 +1102,7 @@
   </section>
 
   <!-- Лайтбокс для галереи -->
-  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Просмотр фото кейса">
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Просмотр изображения">
     <div class="lightbox-inner">
       <img id="lightboxImg" src="" alt="">
       <div class="lightbox-caption">
@@ -783,6 +1115,67 @@
     </div>
   </div>
 
+  <!-- ===================== ЧАСТЫЕ ВОПРОСЫ ===================== -->
+  <!-- Вопросы раскрываются по клику (теги details/summary работают без JavaScript).
+       Чтобы добавить вопрос — скопируйте блок <details class="faq-item"> целиком. -->
+  <section class="faq reveal" id="faq">
+    <div class="wrap">
+      <div class="faq-head">
+        <span class="eyebrow-free-label">Частые вопросы</span>
+        <h2>О закиси азота и наркозе — честно и просто</h2>
+        <p>Слова «седация» и «наркоз» часто пугают родителей. Здесь ответы на вопросы, которые мне задают чаще всего. Если вашего вопроса нет — напишите мне, я отвечу.</p>
+      </div>
+
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary>Что такое лечение в закиси азота?<span class="faq-toggle" aria-hidden="true"></span></summary>
+          <div class="faq-answer">
+            <p>Это лёгкая седация. Ребёнок дышит через небольшую маску смесью кислорода и закиси азота. Через пару минут он расслабляется, тревога уходит, а время приёма пролетает незаметно.</p>
+            <p><strong>Ребёнок не спит:</strong> он в сознании, дышит сам, слышит меня и может отвечать. Обезболивание я делаю, когда он уже спокоен, поэтому лечение проходит без боли.</p>
+            <p>Это частая и хорошо изученная методика в детской стоматологии. Действие газа проходит через несколько минут после того, как маску сняли.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Что такое лечение под наркозом? Это как перед операцией?<span class="faq-toggle" aria-hidden="true"></span></summary>
+          <div class="faq-answer">
+            <p>Нет, это совсем другой масштаб. Слово «наркоз» у многих связано с больницей и серьёзной операцией. В детской стоматологии это <strong>короткий медикаментозный сон на время лечения</strong>: ребёнок спокойно засыпает, ничего не чувствует и не запоминает, а мы тем временем вылечиваем все зубы за один визит.</p>
+            <p>Используются современные препараты, после которых дети мягко и быстро просыпаются. Всё время лечения за состоянием ребёнка следят с помощью аппаратуры.</p>
+            <p><strong>Домой вы уходите в тот же день — обычно ребёнок свободен уже через 3–4 часа.</strong></p>
+            <p>Для детской стоматологии это частая, привычная и отработанная процедура, а не что-то исключительное.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Насколько это безопасно? Не навредит ли ребёнку?<span class="faq-toggle" aria-hidden="true"></span></summary>
+          <div class="faq-answer">
+            <p>Безопасность ребёнка для меня на первом месте, поэтому ни закись азота, ни наркоз не назначаются «на всякий случай» — только после осмотра и разговора с вами.</p>
+            <p>Перед наркозом ребёнок обязательно сдаёт анализы и получает допуск. Это не формальность: так мы заранее убеждаемся, что наркоз подходит именно ему. Если есть сомнения — лечение переносится или выбирается другой способ.</p>
+            <p>По современным данным, короткий наркоз у здоровых детей не влияет на их развитие и память. А вот лечение «через силу», со слезами и страхом, может оставить у ребёнка боязнь врачей на долгие годы.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Как подготовиться и что будет после лечения?<span class="faq-toggle" aria-hidden="true"></span></summary>
+          <div class="faq-answer">
+            <p><strong>Закись азота</strong> почти не требует подготовки. Важно, чтобы у ребёнка свободно дышал нос. После приёма он быстро возвращается в обычное состояние и уходит домой вместе с вами.</p>
+            <p><strong>Перед наркозом</strong> я заранее дам понятную памятку: какие анализы сдать, когда в последний раз можно поесть и попить, что взять с собой. Никаких сюрпризов в день лечения.</p>
+            <p>После пробуждения ребёнок какое-то время отдыхает под наблюдением, а дома в тот же день может заниматься привычными спокойными делами. Я остаюсь на связи, если у вас появятся вопросы.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Как понять, что подходит моему ребёнку?<span class="faq-toggle" aria-hidden="true"></span></summary>
+          <div class="faq-answer">
+            <p>Решать это заранее не нужно — мы определяем вместе на консультации. Я смотрю на возраст ребёнка, объём лечения, его характер и то, как он чувствует себя в кабинете.</p>
+            <p>Большинству детей отлично подходит закись азота. Наркоз я предлагаю в особых случаях: когда нужно вылечить много зубов у малыша или когда лечение другим способом невозможно.</p>
+            <p>Я подробно объясню плюсы каждого варианта и отвечу на все вопросы. Окончательное решение всегда остаётся за вами.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
   <!-- ===================== CTA + ФОРМА ЗАПИСИ ===================== -->
   <section class="cta-band reveal" id="booking">
     <div class="wrap">
@@ -792,13 +1185,17 @@
       </div>
 
       <div class="cta-form">
-        <div class="form-success" id="formSuccess" role="status">Спасибо! Заявка отправлена, мы свяжемся с вами в ближайшее время.</div>
+        <div class="form-success" id="formSuccess" role="status">Спасибо! Заявка отправлена. Я свяжусь с вами в ближайшее время.</div>
+        <div class="form-notice" id="formNotice" role="status">
+          Онлайн-запись скоро заработает. Пока, пожалуйста, напишите мне в Telegram:
+          <a href="https://t.me/dolgovfm" target="_blank" rel="noopener">@dolgovfm</a>
+        </div>
         <!--
           ЗАМЕТКА ДЛЯ РАЗРАБОТЧИКА:
-          Форма ниже — заглушка без реальной отправки данных.
-          Чтобы подключить приём заявок, замените обработчик submit в <script>
-          на fetch-запрос к своему бэкенду, Telegram-боту или сервису форм,
-          либо укажите атрибуты action и method и уберите preventDefault().
+          Пока в <script> переменная FORM_ENDPOINT пустая, заявка никуда не отправляется —
+          вместо «Спасибо» родитель увидит просьбу написать в Telegram (чтобы заявки не терялись).
+          Когда появится приёмник заявок, впишите его адрес в FORM_ENDPOINT (см. скрипт внизу).
+          Поля уходят как JSON: parentName, parentPhone, comment.
         -->
         <form id="bookingForm" novalidate>
           <div class="field">
@@ -809,45 +1206,31 @@
             <label for="parentPhone">Телефон</label>
             <input type="tel" id="parentPhone" name="parentPhone" autocomplete="tel" placeholder="+7 (___) ___-__-__" required>
           </div>
+          <div class="field">
+            <label for="comment">Комментарий <span class="field-hint" style="display:inline;">— необязательно</span></label>
+            <textarea id="comment" name="comment" maxlength="1000" aria-describedby="commentHint" placeholder="Возраст ребёнка, удобные дни и время, как лучше с вами связаться"></textarea>
+            <span class="field-hint" id="commentHint">Подробности о здоровье ребёнка лучше обсудить лично на консультации.</span>
+          </div>
+          <label class="consent">
+            <!-- ЗАМЕНИТЬ href на страницу политики обработки персональных данных, когда она будет готова -->
+            <input type="checkbox" id="consent" name="consent" required>
+            <span>Я согласен(на) на обработку персональных данных в соответствии с <a href="#">политикой конфиденциальности</a></span>
+          </label>
           <button type="submit" class="btn-primary">Записаться</button>
-          <p class="form-note">Нажимая «Записаться», вы соглашаетесь на обработку персональных данных.</p>
         </form>
       </div>
     </div>
   </section>
 
   <!-- ===================== КОНТАКТЫ / ФУТЕР ===================== -->
-  <footer class="site-footer reveal" id="contacts">
+  <footer class="site-footer reveal">
     <div class="wrap">
       <div class="footer-grid">
         <div class="footer-col">
           <h3>Долгова Елена Дмитриевна</h3>
-          <p style="color:rgba(255,255,255,0.65); max-width:40ch;">Детский врач-стоматолог.</p>
+          <p style="color:rgba(255,255,255,0.65); max-width:40ch;">Детский врач-стоматолог. Связаться со мной можно в Telegram — <a href="#contacts" style="color:var(--mint);">ссылки вверху страницы</a>.</p>
         </div>
 
-        <div class="footer-col">
-          <h3>Telegram</h3>
-          <ul class="contact-list">
-            <li>
-              <a href="https://t.me/e_ryumina" target="_blank" rel="noopener">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 4L3 11.5l6 2M21 4L15.5 20l-6.5-6.5M21 4L8.5 13.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                <span>
-                  Канал с полезной информацией
-                  <span class="contact-hint">t.me/e_ryumina</span>
-                </span>
-              </a>
-            </li>
-            <li>
-              <a href="https://t.me/dolgovfm" target="_blank" rel="noopener">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 4L3 11.5l6 2M21 4L15.5 20l-6.5-6.5M21 4L8.5 13.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                <span>
-                  Написать лично
-                  <span class="contact-hint">@dolgovfm</span>
-                </span>
-              </a>
-            </li>
-          </ul>
-        </div>
       </div>
 
       <div class="disclaimer">
@@ -889,8 +1272,8 @@
   }, { threshold: 0.12 });
   revealEls.forEach(el => observer.observe(el));
 
-  // ===================== ЛАЙТБОКС ГАЛЕРЕИ =====================
-  const galleryGrid = document.getElementById('galleryGrid');
+  // ===================== ЛАЙТБОКС (фото работ и сертификаты) =====================
+  // Открывается по клику на любую кнопку с атрибутом data-img
   const lightbox = document.getElementById('lightbox');
   const lightboxImg = document.getElementById('lightboxImg');
   const lightboxTitle = document.getElementById('lightboxTitle');
@@ -901,9 +1284,9 @@
   function openLightbox(card){
     lastFocusedEl = document.activeElement;
     lightboxImg.src = card.dataset.img;
-    lightboxImg.alt = card.dataset.title;
-    lightboxTitle.textContent = card.dataset.title;
-    lightboxMeta.textContent = card.dataset.meta;
+    lightboxImg.alt = card.dataset.title || '';
+    lightboxTitle.textContent = card.dataset.title || '';
+    lightboxMeta.textContent = card.dataset.meta || '';
     lightbox.classList.add('open');
     lightboxClose.focus();
     document.body.style.overflow = 'hidden';
@@ -915,11 +1298,10 @@
     if (lastFocusedEl) lastFocusedEl.focus();
   }
 
-  galleryGrid.addEventListener('click', (e) => {
-    const card = e.target.closest('.case-photo');
+  document.addEventListener('click', (e) => {
+    const card = e.target.closest('button[data-img]');
     if (card) openLightbox(card);
   });
-
   lightboxClose.addEventListener('click', closeLightbox);
   lightbox.addEventListener('click', (e) => {
     if (e.target === lightbox) closeLightbox();
@@ -928,16 +1310,51 @@
     if (e.key === 'Escape' && lightbox.classList.contains('open')) closeLightbox();
   });
 
-  // ===================== ФОРМА ЗАПИСИ (ЗАГЛУШКА) =====================
+  // ===================== ФОРМА ЗАПИСИ =====================
+  // ЗДЕСЬ указать адрес приёмника заявок (свой сервер, Яндекс Формы через API и т.п.).
+  // Пока строка пустая — заявка НЕ отправляется, и родитель видит просьбу написать в Telegram.
+  const FORM_ENDPOINT = '';
+
   const bookingForm = document.getElementById('bookingForm');
   const formSuccess = document.getElementById('formSuccess');
+  const formNotice = document.getElementById('formNotice');
 
-  bookingForm.addEventListener('submit', (e) => {
+  bookingForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    // ЗДЕСЬ подключить реальную отправку данных на сервер/CRM/бота (см. комментарий выше формы).
-    formSuccess.classList.add('show');
-    bookingForm.reset();
-    formSuccess.scrollIntoView({ behavior:'smooth', block:'nearest' });
+    formSuccess.classList.remove('show');
+    formNotice.classList.remove('show');
+
+    // Проверка обязательных полей (имя, телефон, согласие)
+    if (!bookingForm.reportValidity()) return;
+
+    const data = {
+      parentName: bookingForm.parentName.value.trim(),
+      parentPhone: bookingForm.parentPhone.value.trim(),
+      comment: bookingForm.comment.value.trim()
+    };
+
+    // Приёмник ещё не подключён — не делаем вид, что заявка ушла
+    if (!FORM_ENDPOINT) {
+      formNotice.classList.add('show');
+      formNotice.scrollIntoView({ behavior:'smooth', block:'nearest' });
+      return;
+    }
+
+    try {
+      const res = await fetch(FORM_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      if (!res.ok) throw new Error('Ошибка ' + res.status);
+      formSuccess.classList.add('show');
+      bookingForm.reset();
+      formSuccess.scrollIntoView({ behavior:'smooth', block:'nearest' });
+    } catch (err) {
+      // Если отправка не удалась — предлагаем Telegram как запасной путь
+      formNotice.classList.add('show');
+      formNotice.scrollIntoView({ behavior:'smooth', block:'nearest' });
+    }
   });
 </script>
 

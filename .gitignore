@@ -1,0 +1,138 @@
+# ===== Изображения (личные фото, кейсы, плейсхолдеры) =====
+*.jpeg
+*.jpg
+*.png
+*.gif
+*.bmp
+*.tiff
+*.tif
+*.webp
+*.svg
+*.ico
+*.heic
+*.raw
+*.psd
+*.ai
+
+# ===== Excel и таблицы =====
+*.xls
+*.xlsx
+*.xlsm
+*.xlsb
+*.xlt
+*.xltx
+*.ods
+*.numbers
+
+# ===== CSV и другие данные =====
+*.csv
+*.tsv
+*.json
+*.xml
+*.parquet
+*.feather
+*.h5
+*.hdf5
+*.pkl
+*.pickle
+
+# ===== Документы =====
+*.doc
+*.docx
+*.pdf
+*.ppt
+*.pptx
+*.odt
+*.rtf
+*.txt
+!requirements.txt
+!README.txt
+
+# ===== Видео и аудио =====
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.webm
+*.mp3
+*.wav
+*.m4a
+*.flac
+
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# ===== Виртуальные окружения =====
+.venv/
+venv/
+ENV/
+env/
+.env
+.env.*
+!.env.example
+
+# ===== Jupyter Notebook =====
+.ipynb_checkpoints/
+
+# ===== PyCharm / IDE =====
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+.settings/
+
+# ===== Логи и кэш =====
+*.log
+logs/
+.cache/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# ===== Секреты и конфиги =====
+secrets.json
+config.local.*
+credentials.*
+*.key
+*.pem
+*.p12
+
+# ===== ОС =====
+.DS_Store
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# ===== Архивы =====
+*.zip
+*.tar
+*.tar.gz
+*.rar
+*.7z
