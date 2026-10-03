@@ -136,3 +136,13 @@ $RECYCLE.BIN/
 *.tar.gz
 *.rar
 *.7z
+# ===== Helper files: keep out of the remote repository =====
+telegram-bot/
+temp.ipynb
+*.ipynb
+qr-*
+
+# ===== Files the site actually needs =====
+!assets/*.jpg
+!assets/certs/*.jpg
+!assets/*.mp4
